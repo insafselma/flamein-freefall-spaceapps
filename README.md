@@ -12,6 +12,27 @@ The same NASA data powers three dashboards, one for each kind of user:
 | Engineer | Habitat safety | "Is my habitat safe, and what if we change the cabin air?" |
 | Student | Learn | "Why does fire behave differently in space, and why does it matter on Earth?" |
 
+## Try it now
+
+**Live website: https://insafselma.github.io/flamex/**
+
+Log in with one of the demo accounts (password `space123`):
+
+| Account | Opens |
+|---|---|
+| `researcher@nasa.gov` | Research lab: full flame simulator, test-gap finder, material screening, complete data |
+| `engineer@nasa.gov` | Habitat safety: fire controls, what-if scenarios, flammability map |
+| `student@nasa.gov` | Learn: flame playground, fire basics, Earth benefits |
+
+The website runs entirely in the browser on NASA's public data, so it needs no server:
+
+- **24 NASA PSI combustion investigations**, with their objectives, approach, team and publications, downloaded from NASA's PSI archive.
+- **1,982 test rows** read from NASA's 22 experimental tables. Every row can be opened back to the original table line.
+- **A flame model fitted on 273 FLEX droplet tests** flown on the ISS. On held-out tests its error is half that of guessing the average, and its 90 % range contains the real result 95–97 % of the time.
+- **Search answers** quote NASA's own sentences with clickable sources.
+
+The full version, with AI-written answers and the FlameAtlas knowledge layer, runs with the backend (see *Getting started*).
+
 ---
 
 ## Why it matters
@@ -113,6 +134,19 @@ FlameX frontend (React + Vite): role-based dashboards
 
 ## Getting started
 
+### Public version (no backend)
+Run from `frontend/`:
+```bash
+npm install
+npm run data:fetch     # download the NASA PSI records and test tables into nasa-data/ (already included)
+npm run data:build     # convert them into public/demo/ (already included)
+npm run build:demo     # static site in dist-demo/, deployable anywhere (GitHub Pages, Netlify…)
+```
+- `nasa-data/` holds the raw NASA downloads (466 KB, public data).
+- `scripts/build-nasa-data.mjs` turns them into the site's data.
+- `nasaModel.js` is the flame model.
+- `demo.js` answers every dashboard request in the browser.
+
 ### Backend (FlameAtlas)
 Run everything from the backend repo root.
 ```bash
@@ -174,7 +208,10 @@ flame_detection/
    ├─ simulator/          flame simulator, flammability map, what-if, test gaps, playground
    ├─ components/         library, materials analysis, fire controls, Earth impact, history…
    ├─ ui.jsx, styles/     shared components and design system
-   ├─ api.js              every backend call
+   ├─ api.js              every backend call (live backend, or demo.js for the public site)
+   ├─ demo.js, nasaModel.js  public site: in-browser answers and the FLEX flame model
+   ├─ nasa-data/          raw NASA PSI records and experimental tables
+   ├─ scripts/            fetch-nasa.mjs (download) and build-nasa-data.mjs (convert)
    ├─ samples/            test CSV
    └─ README.md           detailed frontend documentation
 ```
@@ -189,6 +226,7 @@ The backend (FlameAtlas) lives in its own repository.
 - **Model scope:** the prediction model covers droplet flames only.
 - **Assumed atmospheres:** the Gateway, Moon and Mars atmospheres are NASA-considered candidates and are labelled as assumptions.
 - **Demo accounts:** accounts are demo-only. Real sign-in and saved conversations need backend endpoints.
+- **Public website:** the online version searches and quotes NASA's text instead of writing answers with AI, and screens materials with written-out rules (oxygen index, NASA-STD-6001 Test 1, matches to NASA-tested materials).
 - **Decision aid:** the material screening supports decisions; it doesn't replace NASA-STD-6001 testing.
 
 ---

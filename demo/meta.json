@@ -1,0 +1,1 @@
+{"source":"NASA Physical Sciences Informatics (psi.nasa.gov)","fetched":"2026-11-22","built":"2026-11-22","investigations":24,"test_rows":1982,"flex_tests":273,"model_validation":{"Methanol":{"n":110,"mae":0.114,"baseline_mae":0.236,"band_coverage":0.973},"Heptane":{"n":75,"mae":0.171,"baseline_mae":0.321,"band_coverage":0.947}}}
